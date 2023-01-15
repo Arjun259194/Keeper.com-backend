@@ -1,0 +1,10 @@
+{
+  "singleQuote": false,
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "semi": false,
+  "parser": "babel-ts",
+  "printWidth": 80,
+  "useTabs": true,
+  "tabWidth": 2
+}
