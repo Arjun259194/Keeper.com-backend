@@ -3,39 +3,75 @@ import bcrypt from "bcrypt"
 import { Response, Request } from "express"
 import { User, UserModel } from "../models/User"
 import { errorMessage } from "../modules/functions"
-import { crossOriginResourcePolicy } from "helmet"
 
-export const login = (request: Request, response: Response): void => {
-	response.send("this is login route")
+//environment variables
+const JWT_KEY = process.env.JWT_KEY || "topSecret"
+
+const isUser = (object: unknown): object is User => {
+	if (object != null && typeof object == "object") {
+		return "_id" in object
+	}
+	return false
+}
+
+export const login = async (request: Request, response: Response) => {
+	try {
+		const { email, password }: { email: string; password: string } = request.body
+
+		const user: unknown = await UserModel.findOne({ email: email }).exec()
+		if (!user)
+			return response.status(404).json({
+				status: "email not found",
+				message: "email is not to be found in database",
+			})
+		if (isUser(user)) {
+			const matchPassword: boolean = await bcrypt.compare(password, user.password)
+
+			if (!matchPassword)
+				return response.status(402).json({
+					status: "Bad request",
+					message: "Password is not current",
+				})
+
+			const TOKEN = jwt.sign({ id: user.id }, JWT_KEY)
+
+			return response.status(200).json({
+				status: "Successful",
+				message: "Authentication successfully done",
+				token: TOKEN,
+			})
+		}
+	} catch (err: any) {
+		errorMessage(err)
+		return response.status(500).json({
+			error: err.message,
+		})
+	}
 }
 
 export const register = async (request: Request, response: Response) => {
 	try {
-		const user: User = {
-			name: request.body.name,
-			email: request.body.email,
-			password: request.body.password,
-			lists: [],
-		}
+		const { name, email, password }: { name: string; email: string; password: string } =
+			request.body
 
-		!user.password
-			? response.status(400).json({
-					status: "failed",
-					message: "not valid password",
-			  })
-			: null
+		if (!password)
+			return response.status(400).json({
+				status: "failed",
+				message: "not valid password",
+			})
 
-		const hashedPassword: string = await bcrypt.hash(user.password, 10)
+		const SALT_ROUND = 10
+		const hashedPassword: string = await bcrypt.hash(password, SALT_ROUND)
 
-		await new UserModel({ ...user, password: hashedPassword }).save()
+		await new UserModel({ name, email, password: hashedPassword }).save()
 
-		response.status(200).json({
+		return response.status(200).json({
 			status: "ok",
 			message: "user registered",
 		})
 	} catch (err: any) {
 		errorMessage(err)
-		response.status(500).json({
+		return response.status(500).json({
 			error: err.message,
 		})
 	}

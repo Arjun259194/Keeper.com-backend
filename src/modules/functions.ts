@@ -3,7 +3,7 @@ import colors from "colors"
 colors.enable()
 
 export const serverRunning = (port: string): void => {
-	console.log("SERVER RUNNING".yellow.bold)
+	console.log("SERVER RUNNING".green.bold)
 	console.log("local:".bold, `http://localhost:${port}`.underline.cyan)
 }
 

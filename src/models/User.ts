@@ -1,6 +1,13 @@
-import { Schema, model, InferSchemaType } from "mongoose"
+import mongoose, { Schema, model } from "mongoose"
 
-const userSchema = new Schema({
+export interface User extends mongoose.Document {
+	name: string
+	email: string
+	password: string
+	lists: any[]
+}
+
+const userSchema: Schema = new Schema({
 	name: {
 		type: String,
 		required: true,
@@ -18,6 +25,4 @@ const userSchema = new Schema({
 	},
 })
 
-export type User = InferSchemaType<typeof userSchema>
-
-export const UserModel = model("User", userSchema)
+export const UserModel = model<User>("User", userSchema)

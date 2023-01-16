@@ -25,8 +25,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 //*Routes
-app.get("/", (_request: Request, response: Response) => {
-	response.send("Hello, world!")
+//server check endpoint
+app.get("/health-check", (_request: Request, response: Response) => {
+	response.json({
+		status: "SERVER RUNNING",
+		message: "Server is running without any error",
+	})
 })
 
 app.use("/api/auth", AuthRouter)
@@ -36,7 +40,7 @@ mongoose
 	.connect(MONGO_URL)
 	.then(connect => {
 		// printing connection info to terminal
-		console.log(connect.connection.host)
+		console.log("connected to database:".bold, connect.connection.host.yellow)
 		app.listen(PORT, () => serverRunning(PORT))
 	})
 	.catch((err: unknown) => {
