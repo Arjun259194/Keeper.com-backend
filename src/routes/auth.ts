@@ -1,4 +1,4 @@
-import express, { Router, Response, Request } from "express"
+import express, { Router } from "express"
 import { login, register } from "../controllers/auth"
 
 const router: Router = express.Router()
