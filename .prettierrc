@@ -5,6 +5,6 @@
   "semi": false,
   "parser": "babel-ts",
   "printWidth": 100,
-  "useTabs": true,
+  "useTabs": false,
   "tabWidth": 2
 }
