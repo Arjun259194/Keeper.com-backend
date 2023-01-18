@@ -1,28 +1,29 @@
 import mongoose, { Schema, model } from "mongoose"
+import { List } from "./List"
 
 export interface User extends mongoose.Document {
-	name: string
-	email: string
-	password: string
-	lists: any[]
+  name: string
+  email: string
+  password: string
+  lists: List[]
 }
 
 const userSchema: Schema = new Schema({
-	name: {
-		type: String,
-		required: true,
-	},
-	email: {
-		type: String,
-		required: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	},
-	lists: {
-		type: [],
-	},
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  lists: {
+    type: [],
+  },
 })
 
 export const UserModel = model<User>("User", userSchema)

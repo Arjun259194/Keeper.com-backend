@@ -4,7 +4,7 @@
   "arrowParens": "avoid",
   "semi": false,
   "parser": "babel-ts",
-  "printWidth": 100,
+  "printWidth": 90,
   "useTabs": false,
   "tabWidth": 2
 }

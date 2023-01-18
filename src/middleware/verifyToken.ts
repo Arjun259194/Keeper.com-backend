@@ -3,7 +3,7 @@ import { Response, Request, NextFunction } from "express"
 
 const JWT_KEY = process.env.JWT_KEY || "topSecret"
 
-export const verifyToken = async (request: Request, response: Response, next: NextFunction) => {
+const verifyToken = async (request: Request, response: Response, next: NextFunction) => {
   try {
     let token = request.get("authorization")?.split(" ")[1]
     if (!token)
@@ -25,3 +25,5 @@ export const verifyToken = async (request: Request, response: Response, next: Ne
     })
   }
 }
+
+export default verifyToken

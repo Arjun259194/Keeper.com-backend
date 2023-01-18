@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import { errorMessage, serverRunning } from "./modules/functions"
 import AuthRouter from "./routes/auth"
 import UserRouter from "./routes/user"
+import ListRouter from "./routes/list"
 
 //* configs
 dotenv.config()
@@ -21,9 +22,17 @@ const app: Express = express()
 //* setting middleware
 app.use(cors())
 app.use(helmet())
-app.use(crossOriginResourcePolicy({ policy: "cross-origin" }))
+app.use(
+  crossOriginResourcePolicy({
+    policy: "cross-origin",
+  })
+)
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+)
 
 //*Routes
 //server check endpoint
@@ -34,8 +43,10 @@ app.get("/health-check", (_request: Request, response: Response) => {
   })
 })
 
-app.use("/api/auth", AuthRouter)
-app.use("/api/user", UserRouter)
+//different end points for application
+app.use("/auth", AuthRouter)
+app.use("/user", UserRouter)
+app.use("/list", ListRouter)
 
 //* connecting to database
 mongoose
