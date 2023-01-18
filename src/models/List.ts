@@ -8,7 +8,7 @@ export interface List extends mongoose.Document {
   pinned: boolean
   tasks: [
     {
-      TaskId: string
+      // TaskId: string
       content: string
       state: taskState
       pinned: boolean
@@ -22,7 +22,7 @@ const list: Schema = new mongoose.Schema({
     require: true,
   },
   userId: {
-    type: String,
+    type: mongoose.Types.ObjectId,
     require: true,
   },
   pinned: {
@@ -36,9 +36,9 @@ const list: Schema = new mongoose.Schema({
           type: String,
           default: "Not Done",
         },
-        TaskId: {
-          type: mongoose.Types.ObjectId,
-        },
+        // TaskId: {
+        //   type: mongoose.Types.ObjectId,
+        // },
         content: {
           type: String,
         },

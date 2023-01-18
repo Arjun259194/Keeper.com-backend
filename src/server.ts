@@ -1,12 +1,12 @@
-import express, { Express, Response, Request } from "express"
 import cors from "cors"
+import dotenv from "dotenv"
+import express, { Express, Request, Response } from "express"
 import helmet, { crossOriginResourcePolicy } from "helmet"
 import mongoose from "mongoose"
-import dotenv from "dotenv"
 import { errorMessage, serverRunning } from "./modules/functions"
 import AuthRouter from "./routes/auth"
-import UserRouter from "./routes/user"
 import ListRouter from "./routes/list"
+import UserRouter from "./routes/user"
 
 //* configs
 dotenv.config()

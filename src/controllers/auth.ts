@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
-import { Response, Request } from "express"
+import { Request, Response } from "express"
+import jwt from "jsonwebtoken"
 import { User, UserModel } from "../models/User"
 import { errorMessage } from "../modules/functions"
 
