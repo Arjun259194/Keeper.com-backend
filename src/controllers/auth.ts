@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 import { Request, Response } from "express"
 import jwt from "jsonwebtoken"
-import { User, UserModel } from "../models/User"
+import UserModel, { User } from "../models/User"
 import { errorMessage } from "../modules/functions"
 
 //environment variables

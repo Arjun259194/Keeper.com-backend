@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { List, ListModel } from "../models/List"
+import ListModel, { List } from "../models/List"
 import { errorMessage } from "../modules/functions"
 
 class ListController {

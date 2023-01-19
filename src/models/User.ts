@@ -1,29 +1,36 @@
-import mongoose, { Schema, model } from "mongoose"
-import { List } from "./List"
+import { Document, model, Schema } from "mongoose"
+import ListModel from "./List"
 
-export interface User extends mongoose.Document {
+export interface User extends Document {
   name: string
   email: string
   password: string
-  lists: List[]
 }
 
-const userSchema: Schema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const USER_SCHEMA: Schema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  lists: {
-    type: [],
-  },
+  { collection: "User-Collection" }
+)
+
+USER_SCHEMA.pre("findOneAndDelete", async function (next) {
+  const USER_ID = this.getQuery()._id
+  await ListModel.deleteMany({ userId: USER_ID })
+  next()
 })
 
-export const UserModel = model<User>("User", userSchema)
+const UserModel = model<User>("User", USER_SCHEMA)
+
+export default UserModel
