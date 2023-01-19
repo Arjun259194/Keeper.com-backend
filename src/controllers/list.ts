@@ -1,18 +1,36 @@
 import { Request, Response } from "express"
+import { ParamsDictionary } from "express-serve-static-core"
+import { ParsedQs } from "qs"
 import ListModel, { List } from "../models/List"
-import { errorMessage } from "../modules/functions"
+import Controller from "../modules/classes"
 
-class ListController {
-  private ErrorHandler = (response: Response, error: any) => {
-    errorMessage(error)
-    return response.status(400).json({
-      status: "Bad request",
-      message: "There is an error",
-      error: error.message,
-    })
+export class TaskController extends Controller {
+  public Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+    return response.send("This is from TaskController class")
   }
+  public Post(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+    throw new Error("Method not implemented.")
+  }
+  public Put(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+    throw new Error("Method not implemented.")
+  }
+  public Delete(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+    throw new Error("Method not implemented.")
+  }
+}
 
-  public CreateNewList = async (request: Request, response: Response) => {
+export class ListController extends Controller {
+  public async Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+    try {
+      const lists = await ListModel.find({ userId: request.userId }).exec()
+      if (!lists || lists.length <= 0) return response.status(404).json({ status: "not found", message: "There are not lists" })
+
+      response.status(200).json({ status: "ok", lists })
+    } catch (error) {
+      this.ErrorHandler(response, error)
+    }
+  }
+  public async Post(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
     try {
       if (!request.body.title) throw new Error("Bad request, title not found")
       const newList = await new ListModel({
@@ -37,20 +55,7 @@ class ListController {
       this.ErrorHandler(response, error)
     }
   }
-
-  public GetLists = async (request: Request, response: Response) => {
-    try {
-      const lists = await ListModel.find({ userId: request.userId }).exec()
-      if (!lists || lists.length <= 0)
-        return response.status(404).json({ status: "not found", message: "There are not lists" })
-
-      response.status(200).json({ status: "ok", lists })
-    } catch (error) {
-      this.ErrorHandler(response, error)
-    }
-  }
-
-  public UpdateListWithId = async (request: Request, response: Response) => {
+  public async Put(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
     try {
       const newList: List = request.body
       const updatedList = await ListModel.findOneAndUpdate({ _id: request.params.id }, newList)
@@ -68,14 +73,10 @@ class ListController {
       this.ErrorHandler(response, error)
     }
   }
-
-  public RemoveListWithId = async (request: Request, response: Response) => {
+  public async Delete(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
     try {
       const removedList = await ListModel.findOneAndDelete({ _id: request.params.id })
-      if (removedList === null)
-        return response
-          .status(404)
-          .json({ status: "not found", message: "given list id not found in database" })
+      if (removedList === null) return response.status(404).json({ status: "not found", message: "given list id not found in database" })
 
       return response.status(200).json({ status: "ok", message: "list deleted from database" })
     } catch (error: any) {
@@ -83,5 +84,3 @@ class ListController {
     }
   }
 }
-
-export default ListController

@@ -1,16 +1,19 @@
 import { Router } from "express"
-import ListController from "../controllers/list"
+import { ListController, TaskController } from "../controllers/list"
 import verifyToken from "../middleware/verifyToken"
 
 const router: Router = Router()
 
 router.use(verifyToken)
 
-const controller = new ListController()
+const listController = new ListController()
+const taskController = new TaskController()
 
-router.get("/", controller.GetLists)
-router.post("/new", controller.CreateNewList)
-router.put("/:id/update", controller.UpdateListWithId)
-router.delete("/:id/remove", controller.RemoveListWithId)
+router.get("/", listController.Get)
+router.post("/new", listController.Post)
+router.put("/:id/update", listController.Put)
+router.delete("/:id/remove", listController.Delete)
+
+router.get("/tasks", taskController.Get)
 
 export default router
