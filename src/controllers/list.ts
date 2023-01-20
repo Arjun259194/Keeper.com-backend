@@ -1,8 +1,9 @@
 import { Request, Response } from "express"
 import { ParamsDictionary } from "express-serve-static-core"
 import { ParsedQs } from "qs"
-import ListModel, { List } from "../models/List"
+import ListModel from "../models/List"
 import Controller from "../modules/classes"
+import { List } from "../modules/interfaces"
 
 class ListController extends Controller {
   public async Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {

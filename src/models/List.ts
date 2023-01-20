@@ -1,19 +1,5 @@
-import { Document, model, Schema, Types } from "mongoose"
-
-type taskState = "Done" | "Not Done" | "In process"
-
-export type Task = {
-  content: string
-  state: taskState
-  pinned: boolean
-}
-
-export interface List extends Document {
-  title: string
-  userId: string
-  pinned: boolean
-  tasks: Array<Task>
-}
+import { model, Schema, Types } from "mongoose"
+import { List } from "../modules/interfaces"
 
 const LIST_SCHEMA: Schema = new Schema(
   {

@@ -1,10 +1,12 @@
 import { Router } from "express"
-import { DeleteUser, GetUserProfile } from "../controllers/user"
+import UserController from "../controllers/user"
 import verifyToken from "../middleware/verifyToken"
 
 const router: Router = Router()
 
-router.get("/", verifyToken, GetUserProfile)
-router.delete("/", verifyToken, DeleteUser)
+const Controller = new UserController()
+
+router.get("/", verifyToken, Controller.Get)
+router.delete("/", verifyToken, Controller.Delete)
 
 export default router

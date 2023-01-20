@@ -1,11 +1,6 @@
-import { Document, model, Schema } from "mongoose"
+import { model, Schema } from "mongoose"
+import { User } from "../modules/interfaces"
 import ListModel from "./List"
-
-export interface User extends Document {
-  name: string
-  email: string
-  password: string
-}
 
 const USER_SCHEMA: Schema = new Schema(
   {
