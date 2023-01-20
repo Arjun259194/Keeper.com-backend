@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import { errorMessage, serverRunning } from "./modules/functions"
 import AuthRouter from "./routes/auth"
 import ListRouter from "./routes/list"
+import TaskRouter from "./routes/task"
 import UserRouter from "./routes/user"
 
 //* configs
@@ -47,6 +48,7 @@ app.get("/health-check", (_request: Request, response: Response) => {
 app.use("/auth", AuthRouter)
 app.use("/user", UserRouter)
 app.use("/list", ListRouter)
+app.use("/task", TaskRouter)
 
 //* connecting to database
 mongoose

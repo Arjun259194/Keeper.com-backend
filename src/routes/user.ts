@@ -5,6 +5,6 @@ import verifyToken from "../middleware/verifyToken"
 const router: Router = Router()
 
 router.get("/", verifyToken, GetUserProfile)
-router.delete("/delete", verifyToken, DeleteUser)
+router.delete("/", verifyToken, DeleteUser)
 
 export default router

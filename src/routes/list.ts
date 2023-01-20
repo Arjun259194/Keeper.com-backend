@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { ListController, TaskController } from "../controllers/list"
+import ListController from "../controllers/list"
 import verifyToken from "../middleware/verifyToken"
 
 const router: Router = Router()
@@ -7,13 +7,10 @@ const router: Router = Router()
 router.use(verifyToken)
 
 const listController = new ListController()
-const taskController = new TaskController()
 
 router.get("/", listController.Get)
-router.post("/new", listController.Post)
-router.put("/:id/update", listController.Put)
-router.delete("/:id/remove", listController.Delete)
-
-router.get("/tasks", taskController.Get)
+router.post("/", listController.Post)
+router.put("/:id", listController.Put)
+router.delete("/:id", listController.Delete)
 
 export default router

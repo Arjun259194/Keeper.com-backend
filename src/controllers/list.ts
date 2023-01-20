@@ -4,22 +4,7 @@ import { ParsedQs } from "qs"
 import ListModel, { List } from "../models/List"
 import Controller from "../modules/classes"
 
-export class TaskController extends Controller {
-  public Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
-    return response.send("This is from TaskController class")
-  }
-  public Post(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
-    throw new Error("Method not implemented.")
-  }
-  public Put(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
-    throw new Error("Method not implemented.")
-  }
-  public Delete(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
-    throw new Error("Method not implemented.")
-  }
-}
-
-export class ListController extends Controller {
+class ListController extends Controller {
   public async Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
     try {
       const lists = await ListModel.find({ userId: request.userId }).exec()
@@ -84,3 +69,5 @@ export class ListController extends Controller {
     }
   }
 }
+
+export default ListController

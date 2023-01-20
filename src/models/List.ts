@@ -2,17 +2,17 @@ import { Document, model, Schema, Types } from "mongoose"
 
 type taskState = "Done" | "Not Done" | "In process"
 
+export type Task = {
+  content: string
+  state: taskState
+  pinned: boolean
+}
+
 export interface List extends Document {
   title: string
   userId: string
   pinned: boolean
-  tasks: [
-    {
-      content: string
-      state: taskState
-      pinned: boolean
-    }
-  ]
+  tasks: Array<Task>
 }
 
 const LIST_SCHEMA: Schema = new Schema(

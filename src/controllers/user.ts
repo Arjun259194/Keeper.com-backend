@@ -26,7 +26,6 @@ export const GetUserProfile = async (request: Request, response: Response) => {
 
 export const DeleteUser = async (request: Request, response: Response) => {
   const removedUser = await UserModel.findByIdAndDelete(request.userId)
-  if (!removedUser)
-    return response.status(404).json({ status: "not found", message: "User not found" })
+  if (!removedUser) return response.status(404).json({ status: "not found", message: "User not found" })
   return response.status(200).json({ status: "OK", message: "User deleted" })
 }
