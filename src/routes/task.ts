@@ -9,5 +9,6 @@ router.use(verifyToken)
 const Controller = new TaskController()
 
 router.post("/:listId", Controller.Post)
+router.put("/:listId/:taskId", Controller.Put)
 
 export default router
