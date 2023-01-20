@@ -10,5 +10,6 @@ const Controller = new TaskController()
 
 router.post("/:listId", Controller.Post)
 router.put("/:listId/:taskId", Controller.Put)
+router.delete("/:listId/:taskId", Controller.Delete)
 
 export default router
