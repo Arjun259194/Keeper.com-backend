@@ -22,7 +22,7 @@ class UserController extends Controller {
       })
     } catch (error: any) {
       errorMessage(error)
-      super.ErrorHandler(response, error)
+      return response.status(402).json({ status: "error", Error: error.message })
     }
   }
   public Post(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
@@ -38,7 +38,7 @@ class UserController extends Controller {
       return response.status(200).json({ status: "OK", message: "User deleted" })
     } catch (err: any) {
       errorMessage(err)
-      super.ErrorHandler(response, err)
+      return response.status(402).json({ status: "error", Error: err.message })
     }
   }
 }
