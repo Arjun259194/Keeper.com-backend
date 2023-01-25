@@ -23,9 +23,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon ./dist/server.js\"",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon ./build/server.js\"",
     "build": "npx tsc",
-    "start": "node ./dist/server.js"
+    "start": "node ./build/server.js"
   },
   "keywords": [],
   "author": "",
