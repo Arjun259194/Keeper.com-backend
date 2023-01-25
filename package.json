@@ -24,7 +24,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon ./build/server.js\"",
-    "build": "npx tsc",
+    "build": "yarn tsc",
     "start": "node ./build/server.js"
   },
   "keywords": [],
