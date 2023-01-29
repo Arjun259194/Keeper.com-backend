@@ -4,6 +4,7 @@ import { ParsedQs } from "qs"
 import ListModel from "../models/List"
 import Controller from "../modules/classes"
 import { List } from "../modules/interfaces"
+import { errorMessage } from "./../modules/functions"
 
 class ListController extends Controller {
   public async Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
@@ -12,8 +13,9 @@ class ListController extends Controller {
       if (!lists || lists.length <= 0) return response.status(404).json({ status: "not found", message: "There are not lists" })
 
       response.status(200).json({ status: "ok", lists })
-    } catch (error) {
-      this.ErrorHandler(response, error)
+    } catch (error: any) {
+      errorMessage(error)
+      return response.status(402).json({ status: "error", Error: error.message })
     }
   }
   public async Post(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
@@ -38,7 +40,8 @@ class ListController extends Controller {
         list: newList,
       })
     } catch (error: any) {
-      this.ErrorHandler(response, error)
+      errorMessage(error)
+      return response.status(402).json({ status: "error", Error: error.message })
     }
   }
   public async Put(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
@@ -56,7 +59,8 @@ class ListController extends Controller {
         message: "data modified successfully",
       })
     } catch (error: any) {
-      this.ErrorHandler(response, error)
+      errorMessage(error)
+      return response.status(402).json({ status: "error", Error: error.message })
     }
   }
   public async Delete(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
@@ -66,7 +70,8 @@ class ListController extends Controller {
 
       return response.status(200).json({ status: "ok", message: "list deleted from database" })
     } catch (error: any) {
-      this.ErrorHandler(response, error)
+      errorMessage(error)
+      return response.status(402).json({ status: "error", Error: error.message })
     }
   }
 }

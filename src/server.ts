@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser"
 import cors from "cors"
 import dotenv from "dotenv"
 import express, { Express, Request, Response } from "express"
@@ -34,6 +35,7 @@ app.use(
     extended: true,
   })
 )
+app.use(cookieParser())
 
 //*Routes
 //server check endpoint

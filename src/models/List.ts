@@ -35,7 +35,7 @@ const LIST_SCHEMA: Schema = new Schema(
       ],
     },
   },
-  { collection: "List-collection" }
+  { collection: "List-collection", timestamps: true }
 )
 
 const ListModel = model<List>("List", LIST_SCHEMA)

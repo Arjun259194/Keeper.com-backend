@@ -6,7 +6,10 @@ import Controller from "../modules/classes"
 import { errorMessage } from "../modules/functions"
 
 class UserController extends Controller {
-  public async Get(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+  public async Get(
+    request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
+    response: Response<any, Record<string, any>>
+  ) {
     try {
       const user = await UserModel.findById(request.userId)
 
@@ -22,23 +25,40 @@ class UserController extends Controller {
       })
     } catch (error: any) {
       errorMessage(error)
-      super.ErrorHandler(response, error)
+      return response
+        .status(402)
+        .json({ status: "error", Error: error.message })
     }
   }
-  public Post(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+  public Post(
+    request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
+    response: Response<any, Record<string, any>>
+  ) {
     throw new Error("Method not implemented.")
   }
-  public Put(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+  public Put(
+    request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
+    response: Response<any, Record<string, any>>
+  ) {
     throw new Error("Method not implemented.")
   }
-  public async Delete(request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, response: Response<any, Record<string, any>>) {
+  public async Delete(
+    request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
+    response: Response<any, Record<string, any>>
+  ) {
     try {
       const removedUser = await UserModel.findByIdAndDelete(request.userId)
-      if (!removedUser) return response.status(404).json({ status: "not found", message: "User not found" })
-      return response.status(200).json({ status: "OK", message: "User deleted" })
+      if (!removedUser)
+        return response
+          .status(404)
+          .json({ status: "not found", message: "User not found" })
+      return response
+        .clearCookie("access-token")
+        .status(200)
+        .json({ status: "OK", message: "User deleted" })
     } catch (err: any) {
       errorMessage(err)
-      super.ErrorHandler(response, err)
+      return response.status(402).json({ status: "error", Error: err.message })
     }
   }
 }
