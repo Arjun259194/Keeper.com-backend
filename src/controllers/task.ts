@@ -77,6 +77,7 @@ class TaskController extends Controller {
           message: "no valid data sent",
         })
 
+
       const updatedList = await ListModel.updateOne(filter, {
         $set: update,
       }).exec()
@@ -95,6 +96,7 @@ class TaskController extends Controller {
       })
     }
   }
+  
   public async Delete(
     request: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     response: Response<any, Record<string, any>>

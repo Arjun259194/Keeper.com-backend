@@ -26,13 +26,14 @@ class AuthController {
         user.password
       )
 
-      if (!matchPassword)
-        return response.status(402).json({
-          status: "Bad request",
-          message: "Password is not current",
-        })
 
-      const TOKEN = jwt.sign(user.id, JWT_KEY)
+    if (!matchPassword)
+      return response.status(402).json({
+        status: "Bad request",
+        message: "Password is not current",
+      })
+
+    const TOKEN = jwt.sign(user.id, JWT_KEY)
 
       return response
         .cookie("access-token", TOKEN, {
@@ -51,7 +52,9 @@ class AuthController {
         error: err.message,
       })
     }
+
   }
+
 
   async logout(request: Request, response: Response) {
     return response
@@ -59,6 +62,7 @@ class AuthController {
       .status(200)
       .json({ status: "User logged out" })
   }
+
 
   async register(request: Request, response: Response) {
     try {
